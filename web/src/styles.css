@@ -345,3 +345,36 @@ tbody tr:hover { background: #f9fbf7; }
 .dashboard-actions { display: flex; gap: 8px; }
 :root[data-theme="dark"] .dashboard-actions .button { color: #cedbcf; background: #26352b; border-color: #3a4b3f; }
 
+/* ===== Analyses ===== */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 15px; }
+.kpi-card { display: flex; flex-direction: column; gap: 6px; padding: 17px 18px; }
+.kpi-card strong { font-size: 22px; font-weight: 700; color: #2a352f; }
+.kpi-card .kpi-good { color: #3d8763; }
+.kpi-card .kpi-bad { color: #b9533f; }
+.kpi-card > span:last-child { color: var(--muted); font-size: 10px; line-height: 1.4; }
+.analysis-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px; margin-top: 15px; }
+.donut-panel, .envelopes-panel { display: flex; flex-direction: column; gap: 12px; padding: 18px; }
+.donut-wrap { display: flex; justify-content: center; }
+.donut-wrap svg { width: min(210px, 72%); height: auto; }
+.donut-total-label { fill: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: 1.2px; }
+.donut-total-value { fill: #2a352f; font-size: 15px; font-weight: 700; }
+.donut-legend { display: flex; flex-direction: column; gap: 7px; }
+.donut-legend span { display: flex; align-items: center; gap: 8px; color: #5b6860; font-size: 10.5px; }
+.donut-legend i { width: 9px; height: 9px; flex: none; border-radius: 3px; }
+.donut-legend strong { margin-left: auto; color: #333f38; font-size: 10.5px; }
+.legend-saving { background: #5a7f9b; }
+.trend-bar.saving { background: linear-gradient(180deg, #8fb3c9, #5a7f9b); }
+.year-chart { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
+.year-chart .trend-bars { gap: 2px; }
+.year-chart .trend-bar { width: 8px; }
+.status-dot.status-offline { background: #c2a95c; box-shadow: 0 0 0 3px #f4ecd8; }
+:root[data-theme="dark"] .kpi-card strong { color: #e6eee7; }
+:root[data-theme="dark"] .donut-total-value { fill: #e6eee7; }
+:root[data-theme="dark"] .donut-legend span { color: #aebbb1; }
+:root[data-theme="dark"] .donut-legend strong { color: #dce7de; }
+:root[data-theme="dark"] .kpi-card .kpi-good { color: #7fc39e; }
+:root[data-theme="dark"] .kpi-card .kpi-bad { color: #f0b8aa; }
+:root[data-theme="dark"] .status-dot.status-offline { box-shadow: 0 0 0 3px #3a3a2c; }
+@media (max-width: 1120px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .analysis-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .kpi-grid { grid-template-columns: 1fr 1fr; gap: 9px; } .kpi-card { padding: 13px; } .kpi-card strong { font-size: 17px; } .year-chart .trend-bar { width: 6px; } .donut-panel, .envelopes-panel { padding: 15px 13px; } }
+
