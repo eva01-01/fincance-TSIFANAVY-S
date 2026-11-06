@@ -30,6 +30,7 @@ export const today = () => {
 export const makeSeed = () => {
   const month = currentMonth();
   const date = `${month}-01`;
+  const members = ['Famille'];
   const needs = [
     ['Frais', 'Frais du mois', 40000],
     ['Sakafo', 'Alimentation du mois', 40000],
@@ -51,11 +52,12 @@ export const makeSeed = () => {
 
   return {
     version: 1,
-    incomes: [{ id: makeId(), label: 'Karama', amount: 500000, month }],
+    members,
+    incomes: [{ id: makeId(), label: 'Karama', amount: 500000, month, member: 'Famille' }],
     expenses: [
-      ...needs.map(([category, label, amount]) => ({ id: makeId(), category, label, amount, date, note: 'Budget initial' })),
-      { id: makeId(), category: 'Plaisir', label: 'Restaurant', amount: 20000, date, note: 'Budget initial' },
-      { id: makeId(), category: 'Écolage', label: 'Écolage Pierre', amount: 65000, date, note: 'Budget initial' },
+      ...needs.map(([category, label, amount]) => ({ id: makeId(), category, label, amount, date, note: 'Budget initial', member: 'Famille' })),
+      { id: makeId(), category: 'Plaisir', label: 'Restaurant', amount: 20000, date, note: 'Budget initial', member: 'Famille' },
+      { id: makeId(), category: 'Écolage', label: 'Écolage Pierre', amount: 65000, date, note: 'Budget initial', member: 'Famille' },
     ],
     provisions: [],
     budgets: defaultBudgets(month),
@@ -81,8 +83,9 @@ export const normalizeData = (value) => {
   }
   return {
     version: 1,
-    incomes: value.incomes.map((row) => ({ ...row, amount: Number(row.amount) || 0 })),
-    expenses: value.expenses.map((row) => ({ ...row, amount: Number(row.amount) || 0 })),
+    members: Array.isArray(value.members) && value.members.length ? value.members.map(String) : ['Famille'],
+    incomes: value.incomes.map((row) => ({ ...row, amount: Number(row.amount) || 0, member: row.member || 'Famille' })),
+    expenses: value.expenses.map((row) => ({ ...row, amount: Number(row.amount) || 0, member: row.member || 'Famille' })),
     provisions: (value.provisions || []).map((row) => ({ ...row, category: row.category || 'PPN', amount: Number(row.amount) || 0, purchased: Boolean(row.purchased), actualAmount: Number(row.actualAmount) || 0 })),
     budgets: (value.budgets || defaultBudgets(currentMonth())).map((row) => ({ ...row, limit: Number(row.limit) || 0 })),
     debts: value.debts.map((row) => ({ ...row, amount: Number(row.amount) || 0, months: row.months ? Number(row.months) : null, payments: Array.isArray(row.payments) ? row.payments.map((payment) => ({ ...payment, id: String(payment.id || makeId()), amount: Number(payment.amount) || 0 })) : [] })),
@@ -138,3 +141,33 @@ export const debtPayoffEstimate = (debt, month) => {
   const monthlyAverage = payments.reduce((sum, payment) => sum + payment.amount, 0) / new Set(payments.map((payment) => payment.date.slice(0, 7))).size;
   return Math.ceil(balance / monthlyAverage);
 };
+
+export const monthProjection = (data, month) => {
+  const now = new Date();
+  const isCurrentMonth = month === currentMonth();
+  const [year, monthNumber] = month.split('-').map(Number);
+  const daysInMonth = new Date(year, monthNumber, 0).getDate();
+  const daysElapsed = isCurrentMonth ? now.getDate() : daysInMonth;
+  const totals = totalsForMonth(data, month);
+  const dailyRate = daysElapsed > 0 ? totals.expenses / daysElapsed : 0;
+  const projectedExpenses = Math.round(dailyRate * daysInMonth);
+  const projectedRemaining = totals.incomes - projectedExpenses - totals.provisions - totals.monthlySavings - totals.debtPayments;
+  return { daysInMonth, daysElapsed, dailyRate, projectedExpenses, projectedRemaining, isCurrentMonth };
+};
+
+export const debtSchedule = (debt, month) => {
+  if (!debt.months || !debt.startMonth) return null;
+  const monthlyDue = Math.ceil(debt.amount / debt.months);
+  const expectedMonths = Array.from({ length: debt.months }, (_, index) => addMonthsLocal(debt.startMonth, index));
+  const paidMonths = new Set(debt.payments.filter((payment) => payment.date).map((payment) => payment.date.slice(0, 7)));
+  const dueMonths = expectedMonths.filter((expected) => expected < month);
+  const missedMonths = dueMonths.filter((expected) => !paidMonths.has(expected));
+  const endMonth = expectedMonths[expectedMonths.length - 1];
+  return { monthlyDue, expectedMonths, paidCount: paidMonths.size, missedMonths, endMonth };
+};
+
+function addMonthsLocal(month, count) {
+  const [year, monthNumber] = month.split('-').map(Number);
+  const date = new Date(year, monthNumber - 1 + count, 1);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}

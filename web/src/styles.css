@@ -378,3 +378,39 @@ tbody tr:hover { background: #f9fbf7; }
 @media (max-width: 1120px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .analysis-grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .kpi-grid { grid-template-columns: 1fr 1fr; gap: 9px; } .kpi-card { padding: 13px; } .kpi-card strong { font-size: 17px; } .year-chart .trend-bar { width: 6px; } .donut-panel, .envelopes-panel { padding: 15px 13px; } }
 
+/* ===== Projection, échéancier & membres ===== */
+.projection-panel { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: -3px 0 15px; padding: 14px 16px; }
+.projection-copy { display: flex; align-items: center; gap: 12px; }
+.projection-copy > div { display: grid; gap: 3px; }
+.projection-copy strong { color: #46574a; font-size: 10px; }
+.projection-copy span:not(.quick-icon) { color: #8a968c; font-size: 9px; }
+.projection-result { display: grid; gap: 4px; padding: 9px 13px; background: var(--green-soft); border-radius: 10px; text-align: right; }
+.projection-result small { color: #6f8375; font-size: 8px; }
+.projection-result strong { color: var(--green-dark); font-size: 14px; white-space: nowrap; }
+.projection-result.over { background: #fbefeb; }
+.projection-result.over strong { color: #a64c40; }
+.debt-schedule { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; padding: 8px 10px; background: #f4f8f4; border: 1px solid var(--line); border-radius: 8px; }
+.debt-schedule span { color: #68796e; font-size: 9px; }
+.debt-schedule strong { color: #425347; }
+.debt-schedule em { color: #a64c40; font-size: 9px; font-style: normal; font-weight: 700; }
+.debt-schedule.late { background: #fbefeb; border-color: #f0d9d2; }
+.member-list { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.member-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; color: #4c5a50; background: #f4f8f4; border: 1px solid var(--line); border-radius: 20px; font-size: 10px; font-weight: 600; }
+.member-chip button { display: inline-flex; color: #9aa39c; cursor: pointer; background: none; border: 0; padding: 0; }
+.member-chip button:hover { color: #a64c40; }
+.member-add { display: flex; gap: 6px; flex: 1; min-width: 170px; }
+.member-add input { flex: 1; min-width: 0; height: 34px; padding: 0 9px; color: #36483b; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 10px; }
+.member-add .button { min-height: 34px; padding: 0 10px; font-size: 9px; }
+:root[data-theme="dark"] .projection-copy strong, :root[data-theme="dark"] .debt-schedule strong { color: #dce7de; }
+:root[data-theme="dark"] .projection-copy span:not(.quick-icon), :root[data-theme="dark"] .debt-schedule span { color: #a3b0a6; }
+:root[data-theme="dark"] .projection-result { background: #2b3d31; }
+:root[data-theme="dark"] .projection-result strong { color: #cce0d0; }
+:root[data-theme="dark"] .projection-result.over { background: #4a302c; }
+:root[data-theme="dark"] .projection-result.over strong { color: #f0b8aa; }
+:root[data-theme="dark"] .debt-schedule { background: #26352b; border-color: #3a4b3f; }
+:root[data-theme="dark"] .debt-schedule.late { background: #4a302c; border-color: #5c3f38; }
+:root[data-theme="dark"] .debt-schedule em { color: #f0b8aa; }
+:root[data-theme="dark"] .member-chip { color: #c4d3c7; background: #26352b; border-color: #3a4b3f; }
+:root[data-theme="dark"] .member-add input { color: #d6e1d8; background: #26352b; border-color: #3a4b3f; }
+@media (max-width: 640px) { .projection-panel { flex-direction: column; align-items: stretch; } .projection-result { text-align: left; } }
+
