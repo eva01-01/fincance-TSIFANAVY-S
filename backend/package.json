@@ -1,0 +1,17 @@
+{
+  "name": "tsifanavy-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serveur familial TSIFANAVY — API + interface statique + SQLite",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  }
+}
