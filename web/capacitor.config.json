@@ -1,0 +1,12 @@
+{
+  "appId": "family.tsifanavy.budget",
+  "appName": "Budget familial",
+  "webDir": "dist",
+  "backgroundColor": "#f4f6f3",
+  "android": {
+    "backgroundColor": "#f4f6f3"
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Budget familial</string>
+    <string name="title_activity_main">Budget familial</string>
+    <string name="package_name">family.tsifanavy.budget</string>
+    <string name="custom_url_scheme">family.tsifanavy.budget</string>
+</resources>

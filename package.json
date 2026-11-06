@@ -1,0 +1,14 @@
+{
+  "name": "tsifanavy-family-budget",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "build": "npm --prefix web run build",
+    "mobile:sync": "npm --prefix web run build && npm --prefix web run cap:sync",
+    "desktop:win": "npm --prefix web run build && npm --prefix desktop run dist:win",
+    "desktop:start": "npm --prefix web run build && npm --prefix desktop start",
+    "mobile:android": "npm --prefix web run build && npm --prefix web run cap:sync && npm --prefix web run cap:android",
+    "mobile:ios": "npm --prefix web run build && npm --prefix web run cap:sync && npm --prefix web run cap:ios"
+  }
+}
